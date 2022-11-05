@@ -37,7 +37,7 @@ quality: test precommit ## Run quality checks.
 
 .PHONY: run
 run: ## Run the project.
-	@pipenv run python hackathon_it_concept/main.py
+	@pipenv run python hackathon_conform_it/main.py
 
 .PHONY: test
 test:
