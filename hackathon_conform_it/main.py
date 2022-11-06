@@ -25,9 +25,130 @@ def remove_isolate_peak(coordonates, matrix):
     return list
 
 @staticmethod
-def heatmap(image, template, scale):
+def effacer(image, coord, w, h):
+    return cv.rectangle(image, coord, (coord[0] + w, coord[1] + h), (255, 255, 255), -1)
 
-    return None
+@staticmethod
+def getObjet(img, template_name):
+    template = load_image(f"./tmp/{template_name}.png", True)
+
+    # heatmap = np.zeros(img.shape)
+    hcoin, wcoin = template.shape
+    list_objet = []
+
+    ######## SKImage
+    result = match_template(img, template)
+    coordonates = peak_local_max(result,min_distance=10)
+
+    ## Remove isolate peak
+    coordonates = remove_isolate_peak(coordonates, result)
+
+    ## Save Bounding box --> (x, y), h, w
+    list_coord = []
+    for coord in coordonates:
+        list_coord.append((coord[0], coord[1], wcoin, hcoin))
+
+    coordonates = merge_intersection(list_coord)
+
+    for x, y, w, h in coordonates:
+        list_objet.append(Model(template_name, ((x, y), w, h)))
+
+    fig = plt.figure()
+    ax1 = plt.subplot(1, 2, 1)
+    ax2 = plt.subplot(1, 2, 2)
+
+    ax1.imshow(img)
+    ax1.set_axis_off()
+    ax1.set_title("image")
+    # highlight matched region
+    for j, i, w, h in coordonates:
+        rect = plt.Rectangle((i, j), w, h, edgecolor="r", facecolor="none")
+        ax1.add_patch(rect)
+        img = effacer(img, (i, j), w, h)
+
+    ax2.imshow(img)
+    ax2.set_axis_off()
+    ax2.set_title("`match_template`\nresult")
+
+    plt.show()
+
+    return list_objet
+
+@staticmethod
+def getArrows(image):
+    list_arrow = []
+    template = load_image(f"./tmp/arrow_1_3.png", True)
+    ##### OpenCV
+    w, h = template.shape[::-1]
+    res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
+    threshold = 0.33
+    loc = np.where(res >= threshold)
+
+    list_coords = []
+    for pt in zip(*loc[::-1]):
+        list_coords.append((pt[0], pt[1], w, h))
+
+    coordonates = merge_intersection(list_coords)
+
+    for x, y, w, h in coordonates:
+        cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        list_arrow.append(Model("ligne", ((x, y), w, h), (1, 3)))
+
+        image = effacer(image, (x, y), w, h)
+    cv.imwrite("./tmp/res.png", image)
+
+    return list_arrow
+
+@staticmethod
+def getLines(image):
+    list_lines = []
+    template = load_image(f"./tmp/line_h.png", True)
+    ##### OpenCV
+    w, h = template.shape[::-1]
+    res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
+    threshold = 0.33
+    loc = np.where(res >= threshold)
+    for pt in zip(*loc[::-1]):
+        cv.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+        list_lines.append(Model("ligne_h", (pt, pt[0] + w, pt[1] + h), (1, 3)))
+    cv.imwrite("./tmp/res.png", image)
+
+    return merge_intersection(list_lines)
+
+@staticmethod
+def is_intersection(box1, box2):
+    if ((box1[0] + box1[2] <= box2[0]) or (box2[0] + box2[2] <= box1[0])
+        or (box1[1] + box1[3] <= box2[1]) or (box2[1] + box2[3] <= box1[1])):
+        return False
+
+    return True
+
+@staticmethod
+def merge_intersection(list_box):
+    changement = False
+    for i in range(len(list_box) - 1):
+        box1 = list_box[i]
+
+        for j in range(i + 1, len(list_box)):
+            box2 = list_box[j]
+            if is_intersection(box1, box2):
+                # Bord Haut Gauche
+                max_x = max(box1[0] + box1[2], box2[0] + box2[2])
+                max_y = max(box1[1] + box1[3], box2[1] + box2[3])
+
+                # Bord Bas Droit
+                min_x = min(box1[0], box2[0])
+                min_y = min(box1[1], box2[1])
+
+                list_box[i] = (min_x, min_y, max_x - min_x, max_y - min_y)
+                list_box.pop(j)
+                merge_intersection(list_box)
+                changement = True
+                break
+        if changement:
+            break
+
+    return list_box
 
 def run():
     """Main."""
@@ -38,10 +159,7 @@ def run():
     object_list = []
 
     for template_name in {"Valve", "Compressor"}:
-        template = load_image(f"./tmp/{template_name}.png", True)
-
-        # heatmap = np.zeros(img.shape)
-        hcoin, wcoin = template.shape
+        object_list += getObjet(img, template_name)
 
         """while (True):
             ## Test
@@ -71,53 +189,13 @@ def run():
         coordonates = remove_isolate_peak(coordonates, heatmap)
         print(coordonates)"""
 
-        ######## SKImage
-        result = match_template(img, template)
-        coordonates = peak_local_max(result,min_distance=10)
-
-        ## Remove isolate peak
-        coordonates = remove_isolate_peak(coordonates, result)
-
-        ## Save Bounding box --> (x, y), h, w
-        for coord in coordonates:
-            object_list.append(Model(template_name, (coord, hcoin, wcoin)))
-
-        fig = plt.figure()
-        ax1 = plt.subplot(1, 2, 1)
-        ax2 = plt.subplot(1, 2, 2)
-
-        ax1.imshow(img)
-        ax1.set_axis_off()
-        ax1.set_title("image")
-        # highlight matched region
-        for j, i in coordonates:
-            rect = plt.Rectangle((i, j), wcoin, hcoin, edgecolor="r", facecolor="none")
-            ax1.add_patch(rect)
-            img = cv.rectangle(img, (i, j), (i + wcoin, j + hcoin), (255, 255, 255), -1)
-
-        ax2.imshow(img)
-        ax2.set_axis_off()
-        ax2.set_title("`match_template`\nresult")
-
-        plt.show()
 
 
     print(object_list)
 
     ## Lines
 
-
-    list_lignes = []
-    template = load_image(f"./tmp/1.png", True)
-    ##### OpenCV
-    w, h = template.shape[::-1]
-    res = cv.matchTemplate(img, template, cv.TM_CCOEFF_NORMED)
-    threshold = 0.33
-    loc = np.where(res >= threshold)
-    for pt in zip(*loc[::-1]):
-        cv.rectangle(img, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
-        list_lignes.append(Model("ligne_h", (pt, pt[0] + w, pt[1] + h)))
-    cv.imwrite("./tmp/res.png", img)
+    list_lignes = getArrows(img)
 
     print(list_lignes)
 
