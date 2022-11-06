@@ -168,6 +168,36 @@ def test_and_merge(list_box):
 
     return list_box, False
 
+@staticmethod
+def merge_arrow_ligne(list_arrow, list_ligne):
+    changement = True
+    while changement:
+        list_arrow, list_ligne = test_and_merge_arrow_ligne(list_arrow, list_ligne)
+
+    return list_arrow, list_ligne
+
+@staticmethod
+def test_and_merge_arrow_ligne(list_arrow, liste_ligne):
+    for i in range(len(list_arrow)):
+        box1 = list_arrow[i].bounding_box
+
+        for j in range(i + 1, len(list_box)):
+            box2 = list_box[j]
+            if is_intersection(box1, box2):
+                # Bord Haut Gauche
+                max_x = max(box1[0] + box1[2], box2[0] + box2[2])
+                max_y = max(box1[1] + box1[3], box2[1] + box2[3])
+
+                # Bord Bas Droit
+                min_x = min(box1[0], box2[0])
+                min_y = min(box1[1], box2[1])
+
+                list_box[i] = (min_x, min_y, max_x - min_x, max_y - min_y)
+                list_box.pop(j)
+                return list_box, True
+
+    return list_box, False
+
 def run():
     """Main."""
     FOLDER = "./img"
@@ -220,6 +250,8 @@ def run():
     list_ligne = getLines(img)
 
     print(list_ligne)
+
+    list_ligne, list_arrow = merge_arrow_ligne(list_arrow, list_ligne)
 
 if __name__ == "__main__":
     run()
