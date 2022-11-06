@@ -22,4 +22,9 @@ def find_placement(box1, box2):
         resp.append(3)
         resp.append(0)
         
-    return list(set(resp))
+    return list(set(resp))           
+
+def tieArrowsObjects(obj_list, arrow_list):
+    arrow_done = []
+    for i, obj in enumerate(obj_list):
+        for j, arrow in enumerate(arrow_list):
