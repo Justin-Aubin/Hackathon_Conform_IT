@@ -126,7 +126,7 @@ def getLines(image):
     return list_lines
 
 @staticmethod
-def is_intersection(box1, box2, strict=False):
+def is_intersection(box1, box2, strict=True):
     EPS = 0
     if not strict:
         EPS = 15
