@@ -6,9 +6,9 @@ from matplotlib import pyplot as plt
 from skimage.feature import match_template, peak_local_max
 
 from models import Model
-from trucNul import find_placement
+from trucNul import find_placement, tieArrowsObjects
 from justinLib import (load_image, remove_isolate_peak, effacer, getObjet, getArrows, getLines, is_intersection, merge_intersection, test_and_merge, merge_arrow_ligne, test_and_merge_arrow_ligne)
-
+from nodes import Node
 
             
 
@@ -66,6 +66,14 @@ def run():
     print(list_ligne)
 
     list_ligne, list_arrow = merge_arrow_ligne(list_arrow, list_ligne)
+    
+    
+    nodesObjects = [Node(o.classe, o) for o in object_list]
+    nodesArrows = [Node(o.classe, o) for o in list_arrow]
+    tieArrowsObjects(nodesObjects, nodesArrows)
+    choosing = [o.equi() for o in nodesObjects]
+    root_obj = nodesObjects[choosing.index(min(choosing))]
+    print(root_obj)
 
 if __name__ == "__main__":
     run()
