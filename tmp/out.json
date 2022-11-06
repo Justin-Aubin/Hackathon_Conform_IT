@@ -4,13 +4,21 @@
         {
             "nom": "Valve",
             "input": [],
-            "output": []
+            "output": [
+                {
+                    "name": "Compressor"
+                }
+            ]
         }
     ],
     "output": [
         {
             "nom": "Valve",
-            "input": [],
+            "input": [
+                {
+                    "name": "Compressor"
+                }
+            ],
             "output": []
         }
     ]

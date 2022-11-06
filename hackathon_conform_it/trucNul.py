@@ -49,7 +49,6 @@ def tieArrowsObjects(nobj_list, narrow_list):
                     narrow.succs.append(nobj)
                     arrow_done[j] += 1
                 elif test == -1:
-                    print(narrow.id)
                     nobj.successArrow.append(narrow.id)
                     narrow.preds.append(nobj)
                     arrow_done[j] += 1
