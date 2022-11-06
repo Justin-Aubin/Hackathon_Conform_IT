@@ -4,7 +4,6 @@ from matplotlib import pyplot as plt
 from skimage.feature import match_template, peak_local_max
 
 from models import Model
-from trucNul import find_placement
 
 @staticmethod
 def afficher(img, object_list, list_arrow, list_ligne):
