@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 from skimage.feature import match_template, peak_local_max
 
 from models import Model
+from trucNul import find_placement
 
 @staticmethod
 def load_image(path, is_template=False):
@@ -136,6 +137,7 @@ def is_intersection(box1, box2, strict=True):
         return False
 
     return True
+
 
 @staticmethod
 def merge_intersection(list_box):
