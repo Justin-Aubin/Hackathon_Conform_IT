@@ -37,14 +37,12 @@ def find_placement(box1o, box2o, direction, collision=False):
 
 def tieArrowsObjects(nobj_list, narrow_list):
     arrow_done = [0 for j in narrow_list]
-    adresses = [0 for j in narrow_list]
     for nobj in nobj_list:
         for j, narrow in enumerate(narrow_list):
             if arrow_done[j] != 2:
                 test = find_placement(narrow.model.bounding_box, nobj.model.bounding_box, narrow.model.from_to, yolo_intersect(narrow, nobj, False))
 
                 if test == 1:
-
                     nobj.predArrow.append(narrow.id)
                     narrow.succs.append(nobj)
                     arrow_done[j] += 1
@@ -53,9 +51,10 @@ def tieArrowsObjects(nobj_list, narrow_list):
                     narrow.preds.append(nobj)
                     arrow_done[j] += 1
 
-                    
+       
     for j in range(len(arrow_done)):
         if arrow_done[j] == 2:
+            print(narrow_list[j].preds, narrow_list[j].succs)
             narrow_list[j].succs[0].preds.append(narrow_list[j].preds[0])
             narrow_list[j].preds[0].succs.append(narrow_list[j].succs[0])
                             
