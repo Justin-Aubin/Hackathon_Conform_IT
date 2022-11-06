@@ -62,4 +62,4 @@ class NodeFactory:
         fakeCoord = (0, 0)
         fakeh, fakew = 0, 0
         
-        return [Node.thing(fakeCoord, fakeh, fakew, id)]
+        return Node.thing(fakeCoord, fakeh, fakew, id)

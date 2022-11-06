@@ -31,6 +31,17 @@ class Node:
             n1.corner[0] - n1.thresh <= n2.corner[0] + n2.w + n2.thresh and \
             n1.corner[1] + n1.h +  n1.thresh  >= n2.corner[1] - n1.thresh and \
             n1.corner[1] - n1.thresh <= n2.corner[1] + n2.h + n2.thresh
+      
+    @classmethod
+    def compatible(self, n1: 'Node', n2: 'Node') -> bool:
+        compatible = False
+        for i in range(4):
+            if (n1.connections[0][i] and n2.connections[1][i]) or (n1.connections[1][i] and n2.connections[0][i]):
+                compatible = True
+                i = 5
+      
+        return compatible
+      
             
     @classmethod
     def _line(self, id:str, corner: Tuple[int, int], h:int, w:int, dep: Tuple[int, int, int, int], vers: Tuple[int, int, int, int], comment:str = None) -> 'Node':
