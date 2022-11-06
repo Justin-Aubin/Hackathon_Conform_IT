@@ -68,12 +68,35 @@ def run():
     list_ligne, list_arrow = merge_arrow_ligne(list_arrow, list_ligne)
     
     
-    nodesObjects = [Node(o.classe, o) for o in object_list]
-    nodesArrows = [Node(o.classe, o) for o in list_arrow]
-    tieArrowsObjects(nodesObjects, nodesArrows)
-    choosing = [o.equi() for o in nodesObjects]
-    root_obj = nodesObjects[choosing.index(min(choosing))]
-    print(root_obj)
+    # nodesObjects = [Node(o.classe, o) for o in object_list]
+    # nodesArrows = [Node(o.classe, o) for o in list_arrow]
+    # tieArrowsObjects(nodesObjects, nodesArrows)
+    # choosing = [o.equi() for o in nodesObjects]
+    # root_obj = nodesObjects[choosing.index(min(choosing))]
+    # for o in nodesObjects:
+    #     print(o.predArrow)
+    #     print(o.successArrow)
+    #     print("fuckkk")
+        
+    fig, ax = plt.subplots()
+    ax.imshow(img)
+    ax.set_axis_off()
+    ax.set_title("image")
+    # highlight matched region
+    for lignes in list_ligne + object_list:
+        coord, w, h = lignes.bounding_box
+        rect = plt.Rectangle(coord, w, h, edgecolor="r", facecolor="none")
+        ax.add_patch(rect)
+
+    ax.imshow(img)
+    ax.set_axis_off()
+    ax.set_title("`match_template`\nresult")
+    plt.show()
+        
+    # for i in object_list:
+    #     for j in list_arrow:
+    #         if len(find_placement(i.bounding_box, j.bounding_box)):
+    #             print("yehhhh")
 
 if __name__ == "__main__":
     run()
