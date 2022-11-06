@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 from skimage.feature import match_template, peak_local_max
+from skimage.transform import rotate
 
 from models import Model
 from trucNul import find_placement
@@ -80,23 +81,26 @@ def getArrows(image):
     list_arrow = []
     template = load_image(f"./tmp/arrow_1_3.png", True)
     ##### OpenCV
-    w, h = template.shape[::-1]
-    res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
-    threshold = 0.33
-    loc = np.where(res >= threshold)
+    for i in range(4):
+        template = rotate(template, i*90, resize=True)
+        w, h = template.shape[::-1]
+        res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
+        threshold = 0.33
+        loc = np.where(res >= threshold)
 
-    list_coords = []
-    for pt in zip(*loc[::-1]):
-        list_coords.append((pt[0], pt[1], w, h))
+        list_coords = []
+        for pt in zip(*loc[::-1]):
+            list_coords.append((pt[0], pt[1], w, h))
 
-    coordonates = merge_intersection(list_coords)
+        coordonates = merge_intersection(list_coords)
 
-    for x, y, w, h in coordonates:
-        # cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        list_arrow.append(Model("arrow", ((x, y), w, h), (1, 3)))
+        for x, y, w, h in coordonates:
+            # cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+            # 1,3 pour 0° / 0,2 pour 90° / 3,1 pour 180° / 2,0 pour 270°
+            list_arrow.append(Model("arrow", ((x, y), w, h), ((1-i)%4, (3-i))))
 
-        image = effacer(image, (x, y), w, h)
-    cv.imwrite("./tmp/res.png", image)
+            image = effacer(image, (x, y), w, h)
+        cv.imwrite("./tmp/res.png", image)
 
     return list_arrow
 
@@ -105,24 +109,26 @@ def getLines(image):
     list_lines = []
     template = load_image(f"./tmp/line_h.png", True)
     ##### OpenCV
-    w, h = template.shape[::-1]
-    res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
-    threshold = 0.65
-    loc = np.where(res >= threshold)
+    for i in range(4):
+        template = rotate(template, i*90, resize=True)
+        w, h = template.shape[::-1]
+        res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
+        threshold = 0.65
+        loc = np.where(res >= threshold)
 
-    list_coords = []
-    for pt in zip(*loc[::-1]):
-        list_coords.append((pt[0], pt[1], w, h))
-        #cv.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+        list_coords = []
+        for pt in zip(*loc[::-1]):
+            list_coords.append((pt[0], pt[1], w, h))
+            #cv.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
 
-    cv.imwrite("./tmp/res_line.png", image)
+        cv.imwrite("./tmp/res_line.png", image)
 
-    coordonates = merge_intersection(list_coords)
+        coordonates = merge_intersection(list_coords)
 
-    for x, y, w, h in coordonates:
-        cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        list_lines.append(Model("ligne", ((x, y), w, h), (1, 3)))
-    cv.imwrite("./tmp/res.png", image)
+        for x, y, w, h in coordonates:
+            cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+            list_lines.append(Model("ligne", ((x, y), w, h), ((1-i)%4, (3-i))))
+        cv.imwrite("./tmp/res.png", image)
 
     return list_lines
 
