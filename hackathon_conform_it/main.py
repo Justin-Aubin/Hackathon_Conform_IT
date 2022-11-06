@@ -17,7 +17,7 @@ DATASET = {
 }
 
 def run():
-    """Main."""
+    """Main.."""
     FOLDER = "./P&ID Tests"
 
     object_list = []
