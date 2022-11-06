@@ -91,8 +91,8 @@ def getArrows(image):
     coordonates = merge_intersection(list_coords)
 
     for x, y, w, h in coordonates:
-        cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        list_arrow.append(Model("ligne", ((x, y), w, h), (1, 3)))
+        # cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        list_arrow.append(Model("arrow", ((x, y), w, h), (1, 3)))
 
         image = effacer(image, (x, y), w, h)
     cv.imwrite("./tmp/res.png", image)
@@ -106,14 +106,24 @@ def getLines(image):
     ##### OpenCV
     w, h = template.shape[::-1]
     res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
-    threshold = 0.33
+    threshold = 0.65
     loc = np.where(res >= threshold)
+
+    list_coords = []
     for pt in zip(*loc[::-1]):
-        cv.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
-        list_lines.append(Model("ligne_h", (pt, pt[0] + w, pt[1] + h), (1, 3)))
+        list_coords.append((pt[0], pt[1], w, h))
+        #cv.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+
+    cv.imwrite("./tmp/res_line.png", image)
+
+    coordonates = merge_intersection(list_coords)
+
+    for x, y, w, h in coordonates:
+        cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        list_lines.append(Model("ligne", ((x, y), w, h), (1, 3)))
     cv.imwrite("./tmp/res.png", image)
 
-    return merge_intersection(list_lines)
+    return list_lines
 
 @staticmethod
 def is_intersection(box1, box2):
@@ -125,7 +135,15 @@ def is_intersection(box1, box2):
 
 @staticmethod
 def merge_intersection(list_box):
-    changement = False
+    changement = True
+    while changement:
+        list_box, changement = test_and_merge(list_box)
+
+    return list_box
+
+
+@staticmethod
+def test_and_merge(list_box):
     for i in range(len(list_box) - 1):
         box1 = list_box[i]
 
@@ -142,13 +160,9 @@ def merge_intersection(list_box):
 
                 list_box[i] = (min_x, min_y, max_x - min_x, max_y - min_y)
                 list_box.pop(j)
-                merge_intersection(list_box)
-                changement = True
-                break
-        if changement:
-            break
+                return list_box, True
 
-    return list_box
+    return list_box, False
 
 def run():
     """Main."""
@@ -195,9 +209,13 @@ def run():
 
     ## Lines
 
-    list_lignes = getArrows(img)
+    list_arrow = getArrows(img)
 
-    print(list_lignes)
+    print(list_arrow)
+
+    list_ligne = getLines(img)
+
+    print(list_ligne)
 
 if __name__ == "__main__":
     run()
