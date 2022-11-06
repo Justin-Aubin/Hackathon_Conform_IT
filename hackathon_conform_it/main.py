@@ -10,24 +10,26 @@ from trucNul import find_placement, tieArrowsObjects
 from justinLib import *
 from nodes import Node
 
-Path_To_Symbols = "./P&ID Symbols/"
+Path_To_Symbols = "./tmp/"
 DATASET = {
+    "Test" : ("Compressor", "Valve"),
     "SIMPLE-1" : ("Group 21 - Valve/Valve", "Group 16 - Compressors, Vacuum Pumps/Compressor"),
     "SIMPLE-2" : ("Group 21 - Valve/Valve", "Group 15 - Liquid Pumps/PMP_1")
 }
 
 def run():
-    """Main.."""
-    FOLDER = "./P&ID Tests"
+    """Main."""
+    FOLDER = "./img"
+    IMG_PNG = "Test"
 
     object_list = []
 
     #for IMG_PNG in DATASET:
     img = load_image(f"{FOLDER}/{IMG_PNG}.png")
-    for template_name in DATASET[IMG_PNG]:
+    for template_name in ("Valve", "Compressor"):
         object_list += getObjet(img, Path_To_Symbols + template_name)
 
-        while (True):
+        """while (True):
             ## Test
             result = match_template(img, template)
             coordonates = peak_local_max(result,min_distance=50)
@@ -53,7 +55,7 @@ def run():
 
         coordonates = peak_local_max(heatmap, min_distance=50)
         coordonates = remove_isolate_peak(coordonates, heatmap)
-        print(coordonates)
+        print(coordonates)"""
 
 
 

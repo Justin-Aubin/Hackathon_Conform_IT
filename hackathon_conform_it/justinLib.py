@@ -137,7 +137,7 @@ def getLines(image):
     template = load_image(f"./tmp/line_h.png", True)
     ##### OpenCV
     for i in range(1):
-        template = np.uint8(rotate(template, i*90, resize=True))
+        # template = np.uint8(rotate(template, i*90, resize=True))
         w, h = template.shape[::-1]
         res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
         threshold = 0.65
