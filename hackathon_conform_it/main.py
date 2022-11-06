@@ -22,38 +22,38 @@ def run():
 
     object_list = []
 
-    for IMG_PNG in DATASET:
-        img = load_image(f"{FOLDER}/{IMG_PNG}.png")
-        for template_name in DATASET[IMG_PNG]:
-            object_list += getObjet(img, Path_To_Symbols + template_name)
+    #for IMG_PNG in DATASET:
+    img = load_image(f"{FOLDER}/{IMG_PNG}.png")
+    for template_name in DATASET[IMG_PNG]:
+        object_list += getObjet(img, Path_To_Symbols + template_name)
 
-            """while (True):
-                ## Test
-                result = match_template(img, template)
-                coordonates = peak_local_max(result,min_distance=50)
+        while (True):
+            ## Test
+            result = match_template(img, template)
+            coordonates = peak_local_max(result,min_distance=50)
 
-                coordonates = remove_isolate_peak(coordonates, result)
+            coordonates = remove_isolate_peak(coordonates, result)
 
-                for i, j in coordonates:
-                    heatmap[i][j] += result[i][j]
+            for i, j in coordonates:
+                heatmap[i][j] += result[i][j]
 
-                ## Augmentation des tailles
-                t_heigh, t_width = template.shape
-                i_heigh, i_width = img.shape
+            ## Augmentation des tailles
+            t_heigh, t_width = template.shape
+            i_heigh, i_width = img.shape
 
-                t_heigh += 25
-                t_width += 25
+            t_heigh += 25
+            t_width += 25
 
-                template = cv.resize(template, (t_heigh, t_width))
+            template = cv.resize(template, (t_heigh, t_width))
 
-                print(f"{t_heigh}, {t_width}")
+            print(f"{t_heigh}, {t_width}")
 
-                if t_heigh > i_heigh or t_width > i_width:
-                    break
+            if t_heigh > i_heigh or t_width > i_width:
+                break
 
-            coordonates = peak_local_max(heatmap, min_distance=50)
-            coordonates = remove_isolate_peak(coordonates, heatmap)
-            print(coordonates)"""
+        coordonates = peak_local_max(heatmap, min_distance=50)
+        coordonates = remove_isolate_peak(coordonates, heatmap)
+        print(coordonates)
 
 
 
