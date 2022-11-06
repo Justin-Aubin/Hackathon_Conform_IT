@@ -179,13 +179,17 @@ def merge_arrow_ligne(list_arrow, list_ligne):
     return list_arrow, list_ligne
 
 @staticmethod
-def test_and_merge_arrow_ligne(list_arrow, liste_ligne):
-    for i in range(len(list_arrow)):
-        box1 = list_arrow[i].bounding_box
+def test_and_merge_arrow_ligne(list_arrow, list_ligne):
+    for i in range(len(list_ligne)):
+        box1 = list_ligne[i].bounding_box
 
-        for j in range(i + 1, len(list_box)):
-            box2 = list_box[j]
+        del_list = []
+
+        for j in range(1, len(list_arrow)):
+            box2 = list_arrow[j].bounding_box
             if is_intersection(box1, box2):
+                del_list = []
+
                 # Bord Haut Gauche
                 max_x = max(box1[0] + box1[2], box2[0] + box2[2])
                 max_y = max(box1[1] + box1[3], box2[1] + box2[3])
@@ -195,7 +199,7 @@ def test_and_merge_arrow_ligne(list_arrow, liste_ligne):
                 min_y = min(box1[1], box2[1])
 
                 list_box[i] = (min_x, min_y, max_x - min_x, max_y - min_y)
-                list_box.pop(j)
+                list_ligne.pop(i)
                 return list_box, True
 
     return list_box, False
