@@ -9,6 +9,7 @@ from models import Model
 from trucNul import find_placement, tieArrowsObjects
 from justinLib import *
 from nodes import Node
+
 def run():
     """Main."""
     FOLDER = "./img"
@@ -62,7 +63,9 @@ def run():
 
     # print(list_ligne)
 
-    list_ligne, list_arrow = merge_arrow_ligne(list_arrow, list_ligne)
+    list_arrow, list_ligne = merge_arrow_ligne(list_arrow, list_ligne)
+
+    print(f"{list_arrow}, {list_ligne}")
 
 
     nodesObjects = [Node(o.classe, o) for o in object_list]
@@ -70,22 +73,10 @@ def run():
     tieArrowsObjects(nodesObjects, nodesArrows)
     choosing = [o.equi() for o in nodesObjects]
     root_obj = nodesObjects[choosing.index(min(choosing))]
-    # for o in nodesObjects:
-        # print(o.predArrow)
-        # print(o.successArrow)
-        # print("fuckkk")
-    # print(nodesArrows)
-    print(nodesObjects)
-    truc = nodesObjects[0]
-    truc.save("ici.json")
+
+    nodesObjects[2].save(f"./tmp/out.json")
 
 
-    # for i in object_list:
-    #     for j in list_arrow:
-    #         if len(find_placement(i.bounding_box, j.bounding_box)):
-    #             print("yehhhh")
-
-    # print(list_ligne, list_arrow)
 
     afficher(img, object_list, list_arrow, list_ligne)
 

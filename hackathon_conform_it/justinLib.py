@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 from skimage.feature import match_template, peak_local_max
+from skimage.transform import rotate
 
 from models import Model
 
@@ -105,6 +106,8 @@ def getArrows(image):
     list_arrow = []
     template = load_image(f"./tmp/arrow_1_3.png", True)
     ##### OpenCV
+    #for i in range(4):
+    # template = np.uint8(rotate(template, i*90, resize=True))
     w, h = template.shape[::-1]
     res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
     threshold = 0.33
@@ -117,10 +120,14 @@ def getArrows(image):
     coordonates = merge_intersection(list_coords)
 
     for x, y, w, h in coordonates:
+        # cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        # 1,3 pour 0° / 0,2 pour 90° / 3,1 pour 180° / 2,0 pour 270°
+        # list_arrow.append(Model("arrow", ((x, y), w, h), ((1-i)%4, (3-i))))
         list_arrow.append(Model("arrow", ((x, y), w, h), (1, 3)))
+
+
         image = effacer(image, (x, y), w, h)
-        cv.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
-    cv.imwrite("./tmp/res.png", image)
+    #cv.imwrite("./tmp/res.png", image)
 
     return list_arrow
 
@@ -129,21 +136,25 @@ def getLines(image):
     list_lines = []
     template = load_image(f"./tmp/line_h.png", True)
     ##### OpenCV
-    w, h = template.shape[::-1]
-    res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
-    threshold = 0.65
-    loc = np.where(res >= threshold)
+    for i in range(1):
+        template = np.uint8(rotate(template, i*90, resize=True))
+        w, h = template.shape[::-1]
+        res = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
+        threshold = 0.65
+        loc = np.where(res >= threshold)
 
-    list_coords = []
-    for pt in zip(*loc[::-1]):
-        list_coords.append((pt[0], pt[1], w, h))
+        list_coords = []
+        for pt in zip(*loc[::-1]):
+            list_coords.append((pt[0], pt[1], w, h))
 
-    coordonates = merge_intersection(list_coords)
+        #cv.imwrite("./tmp/res_line.png", image)
 
-    for x, y, w, h in coordonates:
-        cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        list_lines.append(Model("ligne", ((x, y), w, h), (1, 3)))
-    cv.imwrite("./tmp/res_line.png", image)
+        coordonates = merge_intersection(list_coords)
+
+        for x, y, w, h in coordonates:
+            #cv.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+            list_lines.append(Model("ligne", ((x, y), w, h), ((1-i)%4, (3-i))))
+        #cv.imwrite("./tmp/res.png", image)
 
     return list_lines
 
@@ -203,19 +214,23 @@ def merge_arrow_ligne(list_arrow, list_ligne):
 def test_and_merge_arrow_ligne(list_arrow, list_ligne):
     for i in range(len(list_ligne)):
         box1 = list_ligne[i].bounding_box
+        print(f"box1 : {box1}")
 
         changement = False
         del_list_arrow = []
         del_list_ligne = []
 
-        for j in range(1, len(list_arrow)):
+        for j in range(len(list_arrow)):
             box2 = list_arrow[j].bounding_box
+            print(f"box2 : {box2}")
             if is_intersection((box1[0][0], box1[0][1], box1[1], box1[2]), (box2[0][0], box2[0][1], box2[1], box2[2]), strict=False):
                 if not changement:
                     del_list_ligne.insert(0, i)
                     changement = True
                 else:
                     del_list_arrow.insert(0, j)
+
+                print("Intersection !")
 
                 # Bord Haut Gauche
                 max_x = max(box1[0][0] + box1[1], box2[0][0] + box2[1])
@@ -236,4 +251,4 @@ def test_and_merge_arrow_ligne(list_arrow, list_ligne):
 
             return list_arrow, list_ligne, changement
 
-    return list_arrow, list_ligne, changement
+    return list_arrow, list_ligne, False

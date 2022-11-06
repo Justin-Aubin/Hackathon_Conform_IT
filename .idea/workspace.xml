@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="958ba140-5f7a-43f1-b968-71c54b47d934" name="Default Changelist" comment="" />
+    <list default="true" id="958ba140-5f7a-43f1-b968-71c54b47d934" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/hackathon_conform_it/justinLib.py" beforeDir="false" afterPath="$PROJECT_DIR$/hackathon_conform_it/justinLib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hackathon_conform_it/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/hackathon_conform_it/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hackathon_conform_it/nodes.py" beforeDir="false" afterPath="$PROJECT_DIR$/hackathon_conform_it/nodes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hackathon_conform_it/trucNul.py" beforeDir="false" afterPath="$PROJECT_DIR$/hackathon_conform_it/trucNul.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/res.png" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/res.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/res_line.png" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/res_line.png" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +27,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SoloProject" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -39,6 +46,7 @@
       <workItem from="1667660605987" duration="9000" />
       <workItem from="1667660628943" duration="756000" />
       <workItem from="1667692288623" duration="9615000" />
+      <workItem from="1667725884415" duration="3578000" />
     </task>
     <servers />
   </component>
