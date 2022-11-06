@@ -10,15 +10,20 @@ from trucNul import find_placement, tieArrowsObjects
 from justinLib import *
 from nodes import Node
 
+DATASET = {
+    "SIMPLE-1" : ("./P&ID Symbols/Group 21 - Valve/X8071", "./P&ID Symbols/Group 16 - Compressors, Vacuum Pumps/CMP_1"),
+    "SIMPLE-2" : ("Valve", "Compressor")
+}
+
 def run():
     """Main."""
-    FOLDER = "./img"
-    IMG_PNG = "Test.png"
+    FOLDER = "./P&ID Tests"
+    IMG_PNG = "SIMPLE-1.png"
     img = load_image(f"{FOLDER}/{IMG_PNG}")
 
     object_list = []
 
-    for template_name in {"Valve", "Compressor"}:
+    for template_name in DATASET[IMG_PNG.split(".")[0]]:
         object_list += getObjet(img, template_name)
 
         """while (True):

@@ -57,7 +57,7 @@ def effacer(image, coord, w, h):
 
 @staticmethod
 def getObjet(img, template_name):
-    template = load_image(f"./tmp/{template_name}.png", True)
+    template = load_image(f"{template_name}.png", True)
 
     # heatmap = np.zeros(img.shape)
     hcoin, wcoin = template.shape
