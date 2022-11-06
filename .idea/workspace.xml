@@ -1,46 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="958ba140-5f7a-43f1-b968-71c54b47d934" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/2061.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/2062.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/2063.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/2064.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/2065.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/2067.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/2068.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/301.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/C0001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/C0002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X2062.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X2063.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X2069.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X2070.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8000.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8005.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8006.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8007.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8008.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8009.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8010.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8011.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8012.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8013.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8014.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8015.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8016.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8098.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8101.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8200.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8201.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/P&amp;ID Symbols/X8202.png" beforeDir="false" />
-    </list>
+    <list default="true" id="958ba140-5f7a-43f1-b968-71c54b47d934" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,6 +38,7 @@
       <workItem from="1667660580722" duration="7000" />
       <workItem from="1667660605987" duration="9000" />
       <workItem from="1667660628943" duration="756000" />
+      <workItem from="1667692288623" duration="9615000" />
     </task>
     <servers />
   </component>
