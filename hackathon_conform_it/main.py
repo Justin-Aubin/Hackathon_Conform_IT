@@ -51,32 +51,28 @@ def run():
 
 
 
-    print(object_list)
+    # print(object_list)
 
     ## Lines
 
     list_arrow = getArrows(img)
 
-    print(list_arrow)
+    # print(list_arrow)
 
     list_ligne = getLines(img)
 
-    print(list_ligne)
+    # print(list_ligne)
 
     list_arrow, list_ligne = merge_arrow_ligne(list_arrow, list_ligne)
 
 
-    # nodesObjects = [Node(o.classe, o) for o in object_list]
-    # nodesArrows = [Node(o.classe, o) for o in list_arrow]
-    # tieArrowsObjects(nodesObjects, nodesArrows)
-    # choosing = [o.equi() for o in nodesObjects]
-    # root_obj = nodesObjects[choosing.index(min(choosing))]
+    nodesObjects = [Node(o.classe, o) for o in object_list]
+    nodesArrows = [Node(o.classe, o) for o in list_arrow]
+    tieArrowsObjects(nodesObjects, nodesArrows)
+    choosing = [o.equi() for o in nodesObjects]
+    root_obj = nodesObjects[choosing.index(min(choosing))]
     # for o in nodesObjects:
-    #     print(o.predArrow)
-    #     print(o.successArrow)
-    #     print("fuckkk")
 
-    print(list_ligne, list_arrow)
 
     afficher(img, object_list, list_arrow, list_ligne)
 
