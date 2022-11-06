@@ -5,9 +5,34 @@ from skimage.feature import match_template, peak_local_max
 from skimage.transform import rotate
 
 from models import Model
-from trucNul import find_placement
 
+@staticmethod
+def afficher(img, object_list, list_arrow, list_ligne):
+    fig, ax = plt.subplots()
+    ax.imshow(img)
+    ax.set_axis_off()
+    ax.set_title("image")
+    # highlight matched region
+    for objet in object_list:
+        coord, w, h = objet.bounding_box
+        rect = plt.Rectangle(coord, w, h, edgecolor="r", facecolor="none")
+        ax.add_patch(rect)
 
+    for arrow in list_arrow:
+        coord, w, h = arrow.bounding_box
+        rect = plt.Rectangle(coord, w, h, edgecolor="b", facecolor="none")
+        ax.add_patch(rect)
+
+    for lignes in list_ligne:
+        coord, w, h = lignes.bounding_box
+        rect = plt.Rectangle(coord, w, h, edgecolor="g", facecolor="none")
+        ax.add_patch(rect)
+
+    ax.imshow(img)
+    ax.set_axis_off()
+    ax.set_title("`match_template`\nresult")
+
+    plt.show()
 
 @staticmethod
 def load_image(path, is_template=False):
@@ -53,7 +78,7 @@ def getObjet(img, template_name):
     coordonates = merge_intersection(list_coord)
 
     for x, y, w, h in coordonates:
-        list_objet.append(Model(template_name, ((x, y), w, h)))
+        list_objet.append(Model(template_name, ((y, x), w, h)))
 
     fig = plt.figure()
     ax1 = plt.subplot(1, 2, 1)
@@ -138,8 +163,8 @@ def is_intersection(box1, box2, strict=True):
     if not strict:
         EPS = 15
 
-    if ((box1[0] + box1[2] + 2 * EPS <= box2[0]) or (box2[0] + box2[2] + 2 * EPS <= box1[0])
-        or (box1[1] + box1[3] + 2 * EPS <= box2[1]) or (box2[1] + box2[3] + 2 * EPS <= box1[1])):
+    if (((box1[0] + box1[2] + 2 * EPS) <= box2[0]) or ((box2[0] + box2[2] + 2 * EPS) <= box1[0])
+        or ((box1[1] + box1[3] + 2 * EPS) <= box2[1]) or ((box2[1] + box2[3] + 2 * EPS) <= box1[1])):
         return False
 
     return True
@@ -180,7 +205,7 @@ def test_and_merge(list_box):
 def merge_arrow_ligne(list_arrow, list_ligne):
     changement = True
     while changement:
-        list_arrow, list_ligne = test_and_merge_arrow_ligne(list_arrow, list_ligne)
+        list_arrow, list_ligne, changement = test_and_merge_arrow_ligne(list_arrow, list_ligne)
 
     return list_arrow, list_ligne
 
@@ -189,23 +214,36 @@ def test_and_merge_arrow_ligne(list_arrow, list_ligne):
     for i in range(len(list_ligne)):
         box1 = list_ligne[i].bounding_box
 
-        del_list = []
+        changement = False
+        del_list_arrow = []
+        del_list_ligne = []
 
         for j in range(1, len(list_arrow)):
             box2 = list_arrow[j].bounding_box
-            if is_intersection(box1, box2):
-                del_list = []
+            if is_intersection((box1[0][0], box1[0][1], box1[1], box1[2]), (box2[0][0], box2[0][1], box2[1], box2[2]), strict=False):
+                if not changement:
+                    del_list_ligne.insert(0, i)
+                    changement = True
+                else:
+                    del_list_arrow.insert(0, j)
 
                 # Bord Haut Gauche
-                max_x = max(box1[0] + box1[2], box2[0] + box2[2])
-                max_y = max(box1[1] + box1[3], box2[1] + box2[3])
+                max_x = max(box1[0][0] + box1[1], box2[0][0] + box2[1])
+                max_y = max(box1[0][1] + box1[2], box2[0][1] + box2[2])
 
                 # Bord Bas Droit
-                min_x = min(box1[0], box2[0])
-                min_y = min(box1[1], box2[1])
+                min_x = min(box1[0][0], box2[0][0])
+                min_y = min(box1[0][1], box2[0][1])
 
-                list_box[i] = (min_x, min_y, max_x - min_x, max_y - min_y)
-                list_ligne.pop(i)
-                return list_box, True
+                list_arrow[j].bounding_box = ((min_x, min_y), max_x - min_x, max_y - min_y)
 
-    return list_box, False
+        if changement:
+            for index in del_list_arrow:
+                list_arrow.pop(index)
+
+            for index in del_list_ligne:
+                list_ligne.pop(index)
+
+            return list_arrow, list_ligne, changement
+
+    return list_arrow, list_ligne, changement
