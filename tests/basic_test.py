@@ -1,4 +1,4 @@
-from hackathon_conform_it.main import is_intersection, merge_intersection
+from hackathon_conform_it.justinLib import is_intersection, merge_intersection
 
 def test_is_intersection():
     # (x, y, w, h)
