@@ -126,9 +126,13 @@ def getLines(image):
     return list_lines
 
 @staticmethod
-def is_intersection(box1, box2):
-    if ((box1[0] + box1[2] <= box2[0]) or (box2[0] + box2[2] <= box1[0])
-        or (box1[1] + box1[3] <= box2[1]) or (box2[1] + box2[3] <= box1[1])):
+def is_intersection(box1, box2, strict=False):
+    EPS = 0
+    if not strict:
+        EPS = 15
+
+    if ((box1[0] + box1[2] + 2 * EPS <= box2[0]) or (box2[0] + box2[2] + 2 * EPS <= box1[0])
+        or (box1[1] + box1[3] + 2 * EPS <= box2[1]) or (box2[1] + box2[3] + 2 * EPS <= box1[1])):
         return False
 
     return True
