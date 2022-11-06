@@ -1,0 +1,11 @@
+{
+    "nom": "Compressor",
+    "input": [
+        {
+            "nom": "Valve",
+            "input": [],
+            "output": []
+        }
+    ],
+    "output": []
+}
