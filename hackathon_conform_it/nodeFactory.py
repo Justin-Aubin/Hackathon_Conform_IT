@@ -84,5 +84,5 @@ class NodeFactory:
     @classmethod
     def fun(self):
         self.reset_count()
-        print("yeh")
+
         

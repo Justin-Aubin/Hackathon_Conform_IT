@@ -78,7 +78,9 @@ def run():
     tieArrowsObjects(nodesObjects, nodesArrows)
     choosing = [o.equi() for o in nodesObjects]
     root_obj = nodesObjects[choosing.index(min(choosing))]
+
     nodesObjects[2].save(f"./tmp/out.json")
+
 
 
     afficher(img, object_list, list_arrow, list_ligne)

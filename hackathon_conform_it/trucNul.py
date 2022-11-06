@@ -11,13 +11,14 @@ def yolo_intersect(n1, n2, strict=True):
     box1 = (box1o[0][0], box1o[0][1], box1o[1], box1o[2])
     box2 = (box2o[0][0], box2o[0][1], box2o[1], box2o[2])
 
+    
     return is_intersection(box1, box2, strict=True)
 
 def find_placement(box1o, box2o, direction, collision=False):
     box1 = (box1o[0][0], box1o[0][1], box1o[1], box1o[2])
     box2 = (box2o[0][0], box2o[0][1], box2o[1], box2o[2])
     EPS = 15
-    #print(collision, "heyyyyy")
+
     if (direction == (1, 3)):
         # y0 de la flèche proche Y0 + h du node
         if abs(box2[0] - (box1[0] + box1[2])) <= 2 * EPS:
@@ -29,7 +30,9 @@ def find_placement(box1o, box2o, direction, collision=False):
         elif collision and (box2[0] + box2[2] >= box1[0]):
             return 1
 
+        
     return 0
+        
 
 
 def tieArrowsObjects(nobj_list, narrow_list):
@@ -39,24 +42,21 @@ def tieArrowsObjects(nobj_list, narrow_list):
         for j, narrow in enumerate(narrow_list):
             if arrow_done[j] != 2:
                 test = find_placement(narrow.model.bounding_box, nobj.model.bounding_box, narrow.model.from_to, yolo_intersect(narrow, nobj, False))
-                #print("buhhhhh", test)
+
                 if test == 1:
 
                     nobj.predArrow.append(narrow.id)
                     narrow.succs.append(nobj)
                     arrow_done[j] += 1
                 elif test == -1:
-                    print(narrow.id)
                     nobj.successArrow.append(narrow.id)
                     narrow.preds.append(nobj)
                     arrow_done[j] += 1
 
+                    
     for j in range(len(arrow_done)):
         if arrow_done[j] == 2:
-            #print("ui mon frer")
             narrow_list[j].succs[0].preds.append(narrow_list[j].preds[0])
             narrow_list[j].preds[0].succs.append(narrow_list[j].succs[0])
+                            
 
-# def cleanObjects(nobj):
-#     # choosing = [o.equi() for o in nobjs]
-#     # root_obj = nobjs[choosing.index(min(choosing))]
