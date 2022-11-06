@@ -12,7 +12,12 @@ def link_lines_to_obj(things: List[Node], links:List[Node]) -> None:
                 else:
                     th.followers.append(lk)
                     lk.previouses.append(th)
-                    
+
+    for th in things:
+        th.previouses, th.followers = list(set(th.previouses)), list(set(th.followers))
+    for lk in links:
+        lk.previouses, lk.followers = list(set(lk.previouses)), list(set(lk.followers))
+                   
 
 def link_lines(lk: List[Node]) -> List[List[Node]]:
     added = []

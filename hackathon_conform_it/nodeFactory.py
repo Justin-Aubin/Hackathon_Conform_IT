@@ -1,18 +1,17 @@
 from nodes import Node
 from models import Model
-
+from typing import List
 
 
 class NodeFactory:
     
-    def __init__(self) -> None:
-        self.count = 0
-        
-        
+    count = 0
+     
+    @classmethod 
     def reset_count(self) -> None:
         self.count = 0
         
-    
+    @classmethod
     def get_line(self, model: Model) -> Node:
         cross = False
         entry = None
@@ -57,9 +56,33 @@ class NodeFactory:
     #     # to implement
     #     pass
     
+    @classmethod
     def get_thing(self, model: Model) -> Node:
         id = "{}_{}_{}".format(model.name, model.classe, self.count)
         fakeCoord = (0, 0)
         fakeh, fakew = 0, 0
         
         return Node.thing(fakeCoord, fakeh, fakew, id)
+    
+    @classmethod
+    def Lines(self, models:List[Model]) -> List[Node]:
+        self.reset_count()
+        output = []
+        for model in models:
+            output.append(self.get_line(model))
+        return output
+    
+    
+    @classmethod
+    def Things(self, models:List[Model]) -> List[Node]:
+        self.reset_count()
+        output = []
+        for model in models:
+            output.append(self.get_thing(model))
+        return output
+    
+    @classmethod
+    def fun(self):
+        self.reset_count()
+        print("yeh")
+        
