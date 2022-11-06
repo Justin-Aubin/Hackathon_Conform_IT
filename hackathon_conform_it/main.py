@@ -13,9 +13,9 @@ from nodes import Node
 Path_To_Symbols = "./P&ID Symbols/"
 DATASET = {
     "SIMPLE-1" : ("Group 21 - Valve/Valve", "Group 16 - Compressors, Vacuum Pumps/Compressor"),
-    "SIMPLE-2" : ("Group 21 - Valve/Valve", "Group 15 - Liquid Pumps/PMP_1"),
-    "SIMPLE-3" : ("Group 21 - Valve/Valve", "Group 21 - Valve/VLV_1", "Group 4 - Steam Generators, Furnaces, Recooling Device/furnace"),
-    "MEDIUM-3" : ("Group 21 - Valve/Valve", "Group 15 - Liquid Pumps/PMP_1", "Group 1 - Vessels and Tanks/TNK_3", "Group 3 - Interruptors/interrupt_3", "Group 28 - Agitators, Stirrers/C2025")
+    # "SIMPLE-2" : ("Group 21 - Valve/Valve", "Group 15 - Liquid Pumps/PMP_1"),
+    # "SIMPLE-3" : ("Group 21 - Valve/Valve", "Group 21 - Valve/VLV_1", "Group 4 - Steam Generators, Furnaces, Recooling Device/furnace"),
+    # "MEDIUM-3" : ("Group 21 - Valve/Valve", "Group 15 - Liquid Pumps/PMP_1", "Group 1 - Vessels and Tanks/TNK_3", "Group 3 - Interruptors/interrupt_3", "Group 28 - Agitators, Stirrers/C2025")
 }
 
 def run():
