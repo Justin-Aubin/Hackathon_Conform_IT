@@ -6,7 +6,33 @@ from skimage.feature import match_template, peak_local_max
 from models import Model
 from trucNul import find_placement
 
+@staticmethod
+def afficher(img, object_list, list_arrow, list_ligne):
+    fig, ax = plt.subplots()
+    ax.imshow(img)
+    ax.set_axis_off()
+    ax.set_title("image")
+    # highlight matched region
+    for objet in object_list:
+        coord, w, h = objet.bounding_box
+        rect = plt.Rectangle(coord, w, h, edgecolor="r", facecolor="none")
+        ax.add_patch(rect)
 
+    for arrow in list_arrow:
+        coord, w, h = arrow.bounding_box
+        rect = plt.Rectangle(coord, w, h, edgecolor="b", facecolor="none")
+        ax.add_patch(rect)
+
+    for lignes in list_ligne:
+        coord, w, h = lignes.bounding_box
+        rect = plt.Rectangle(coord, w, h, edgecolor="g", facecolor="none")
+        ax.add_patch(rect)
+
+    ax.imshow(img)
+    ax.set_axis_off()
+    ax.set_title("`match_template`\nresult")
+
+    plt.show()
 
 @staticmethod
 def load_image(path, is_template=False):
@@ -52,7 +78,7 @@ def getObjet(img, template_name):
     coordonates = merge_intersection(list_coord)
 
     for x, y, w, h in coordonates:
-        list_objet.append(Model(template_name, ((x, y), w, h)))
+        list_objet.append(Model(template_name, ((y, x), w, h)))
 
     fig = plt.figure()
     ax1 = plt.subplot(1, 2, 1)
@@ -93,7 +119,6 @@ def getArrows(image):
 
     for x, y, w, h in coordonates:
         list_arrow.append(Model("arrow", ((x, y), w, h), (1, 3)))
-
         image = effacer(image, (x, y), w, h)
         cv.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
     cv.imwrite("./tmp/res.png", image)
