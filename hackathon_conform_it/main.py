@@ -65,13 +65,15 @@ def run():
 
     list_arrow, list_ligne = merge_arrow_ligne(list_arrow, list_ligne)
 
+    print(f"{list_arrow}, {list_ligne}")
+
 
     nodesObjects = [Node(o.classe, o) for o in object_list]
     nodesArrows = [Node(o.classe, o) for o in list_arrow]
     tieArrowsObjects(nodesObjects, nodesArrows)
     choosing = [o.equi() for o in nodesObjects]
     root_obj = nodesObjects[choosing.index(min(choosing))]
-    # for o in nodesObjects:
+    nodesObjects[2].save(f"./tmp/out.json")
 
 
     afficher(img, object_list, list_arrow, list_ligne)

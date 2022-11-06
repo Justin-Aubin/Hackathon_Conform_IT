@@ -18,10 +18,10 @@ def afficher(img, object_list, list_arrow, list_ligne):
         rect = plt.Rectangle(coord, w, h, edgecolor="r", facecolor="none")
         ax.add_patch(rect)
 
-    #for arrow in list_arrow:
-    coord, w, h = list_arrow[0].bounding_box
-    rect = plt.Rectangle(coord, w, h, edgecolor="b", facecolor="none")
-    ax.add_patch(rect)
+    for arrow in list_arrow:
+        coord, w, h = arrow.bounding_box
+        rect = plt.Rectangle(coord, w, h, edgecolor="b", facecolor="none")
+        ax.add_patch(rect)
 
     for lignes in list_ligne:
         coord, w, h = lignes.bounding_box
@@ -220,7 +220,7 @@ def test_and_merge_arrow_ligne(list_arrow, list_ligne):
         del_list_arrow = []
         del_list_ligne = []
 
-        for j in range(1, len(list_arrow)):
+        for j in range(len(list_arrow)):
             box2 = list_arrow[j].bounding_box
             print(f"box2 : {box2}")
             if is_intersection((box1[0][0], box1[0][1], box1[1], box1[2]), (box2[0][0], box2[0][1], box2[1], box2[2]), strict=False):
