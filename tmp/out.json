@@ -1,26 +1,5 @@
 {
-    "nom": "Compressor",
-    "input": [
-        {
-            "nom": "Valve",
-            "input": [],
-            "output": [
-                {
-                    "name": "Compressor"
-                }
-            ]
-        }
-    ],
-    "output": [
-        {
-            "nom": "Valve",
-            "input": [
-                {
-                    "name": "Compressor"
-                }
-            ],
-            "output": []
-        }
-    ]
+    "nom": "./P&ID Symbols/Group 16 - Compressors, Vacuum Pumps/Compressor",
+    "input": [],
+    "output": []
 }
-
